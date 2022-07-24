@@ -1,7 +1,7 @@
 import type ExpectedData from '../types/expected-data.ts'
 
 export default <ExpectedData>{
-  missingFile: {
+  missingFiles: {
     status: {
       code: 1,
       success: false

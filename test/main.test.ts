@@ -15,7 +15,7 @@ Deno.test('cp missing file', async t => {
 
     assertEquals(
       actualStatus,
-      expected.missingFile.status
+      expected.missingFiles.status
     )
   })
   
@@ -26,7 +26,7 @@ Deno.test('cp missing file', async t => {
     
     assertEquals(
       actualErrorOutput,
-      expected.missingFile.errorOutput
+      expected.missingFiles.errorOutput
     )
   })
   p.stderr.close()
