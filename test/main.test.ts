@@ -41,7 +41,7 @@ Try 'cp --help' for more information.
   p.close()
 })
 
-Deno.test('cp --help or -h first param', async t => {
+Deno.test('cp help flag', async t => {
   const expectOutput =
 `cp command for copi :D
 Options:
@@ -63,7 +63,7 @@ Options:
     p.close()
   }
 
-  await t.step('--help first param', async () => {
+  await t.step('--help', async () => {
     const p = Deno.run({
       cmd: cmd('--help'),
       stdout: 'piped'
@@ -72,7 +72,7 @@ Options:
     await helpTest(p)
   })
 
-  await t.step('-h first param', async () => {
+  await t.step('-h', async () => {
     const p = Deno.run({
       cmd: cmd('-h'),
       stdout: 'piped'
@@ -82,7 +82,7 @@ Options:
   })
 })
 
-Deno.test('cp --version or -V first param', async t => {
+Deno.test('cp version flag', async t => {
   const expectedOutput = 'deno cp 0.0.1\n'
 
   const versionTest = async (p: Deno.Process) => {
@@ -98,7 +98,7 @@ Deno.test('cp --version or -V first param', async t => {
     p.close()
   }
 
-  await t.step('--version fisrt param', async () => {
+  await t.step('--version', async () => {
     const p = Deno.run({
       cmd: cmd('--version'),
       stdout: 'piped'
@@ -107,7 +107,7 @@ Deno.test('cp --version or -V first param', async t => {
     await versionTest(p)
   })
 
-  await t.step('-V fisrt param', async () => {
+  await t.step('-V', async () => {
     const p = Deno.run({
       cmd: cmd('-V'),
       stdout: 'piped'

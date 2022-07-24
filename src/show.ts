@@ -15,7 +15,6 @@ export function showVersion() {
   console.log(information.version)
 }
 
-
 export function showError(errorType: CPErrors) {
   console.error(information.errors[errorType])
   Deno.exit(1)
