@@ -1,8 +1,10 @@
 import { assertEquals } from 'testing/asserts.ts'
 
+import expected from './expected-data.ts'
+
 import { cmd, decode } from './utils.ts'
 
-Deno.test('cp without params', async t => {
+Deno.test('cp missing file', async t => {
   const p = Deno.run({
     cmd: cmd(),
     stderr: 'piped'
@@ -11,14 +13,9 @@ Deno.test('cp without params', async t => {
   await t.step('status code diferent to 0', async () => {
     const actualStatus = await p.status()
 
-    const expectedStatus: Deno.ProcessStatus = {
-      code: 1,
-      success: false
-    }
-
     assertEquals(
       actualStatus,
-      expectedStatus
+      expected.missingFile.status
     )
   })
   
@@ -26,15 +23,10 @@ Deno.test('cp without params', async t => {
     const rawErrorOutput = await p.stderr.readable.getReader().read()
 
     const actualErrorOutput = decode(rawErrorOutput.value)
-
-    const expectErrorOutput =
-`cp: missing file operand
-Try 'cp --help' for more information.
-`
     
     assertEquals(
       actualErrorOutput,
-      expectErrorOutput
+      expected.missingFile.errorOutput
     )
   })
   p.stderr.close()
@@ -42,14 +34,6 @@ Try 'cp --help' for more information.
 })
 
 Deno.test('cp help flag', async t => {
-  const expectOutput =
-`cp command for copi :D
-Options:
-   -h, --help:
-       Print information.
-   -V, --version:
-       Print version.
-`
   const helpTest = async (p: Deno.Process) => {
     const rawOutput = await p.output()
 
@@ -57,7 +41,7 @@ Options:
 
     assertEquals(
       actualOutput,
-      expectOutput
+      expected.helpFlagOutput
     )
 
     p.close()
@@ -83,8 +67,6 @@ Options:
 })
 
 Deno.test('cp version flag', async t => {
-  const expectedOutput = 'deno cp 0.0.1\n'
-
   const versionTest = async (p: Deno.Process) => {
     const rawOutput = await p.output()
 
@@ -92,7 +74,7 @@ Deno.test('cp version flag', async t => {
 
     assertEquals(
       actualOutput,
-      expectedOutput
+      expected.versionFlagOutput
     )
 
     p.close()
