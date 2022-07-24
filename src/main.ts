@@ -1,14 +1,11 @@
-import { showInfo, showVersion } from './show.ts'
+import { showInfo, showVersion, showMissingFileError } from './show.ts'
 
 const firstArg = Deno.args[0]
 
 const help = ['--help', '-h'].includes(firstArg)
 const version = ['--version', '-V'].includes(firstArg)
 
-if (!Deno.args.length) {
-  console.error('cp: missing file operand\nTry \'cp --help\' for more information.')
-  Deno.exit(1)
-}
+if (!Deno.args.length) showMissingFileError()
 else if (help) showInfo()
 else if (version) showVersion()
 else {

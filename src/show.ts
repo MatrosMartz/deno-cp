@@ -12,3 +12,8 @@ export function showInfo() {
 export function showVersion() {
   console.log('deno cp 0.0.1')
 }
+
+export function showMissingFileError() {
+  console.error('cp: missing file operand\nTry \'cp --help\' for more information.')
+  Deno.exit(1)
+}
