@@ -1,12 +1,10 @@
 import { assertEquals } from 'testing/asserts.ts'
 
-const cmd = ['deno', 'run', './src/main.ts']
-
-const decode = (uiarr?: Uint8Array) => new TextDecoder().decode(uiarr) 
+import { cmd, decode } from './utils.ts'
 
 Deno.test('cp without params', async t => {
   const p = Deno.run({
-    cmd: [...cmd],
+    cmd: cmd(),
     stderr: 'piped'
   })
   
@@ -67,7 +65,7 @@ Options:
 
   await t.step('--help first param', async () => {
     const p = Deno.run({
-      cmd: [...cmd, '--help'],
+      cmd: cmd('--help'),
       stdout: 'piped'
     })
 
@@ -76,7 +74,7 @@ Options:
 
   await t.step('-h first param', async () => {
     const p = Deno.run({
-      cmd: [...cmd, '-h'],
+      cmd: cmd('-h'),
       stdout: 'piped'
     })
 
@@ -102,7 +100,7 @@ Deno.test('cp --version or -V first param', async t => {
 
   await t.step('--version fisrt param', async () => {
     const p = Deno.run({
-      cmd: [...cmd, '--version'],
+      cmd: cmd('--version'),
       stdout: 'piped'
     })
 
@@ -111,7 +109,7 @@ Deno.test('cp --version or -V first param', async t => {
 
   await t.step('-V fisrt param', async () => {
     const p = Deno.run({
-      cmd: [...cmd, '-V'],
+      cmd: cmd('-V'),
       stdout: 'piped'
     })
 
