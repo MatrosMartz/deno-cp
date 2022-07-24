@@ -1,4 +1,4 @@
-import type { CPErrors } from './types/enums.ts'
+import type { CPErrors } from '../types/enums.ts'
 
 import information from './information.ts'
 
