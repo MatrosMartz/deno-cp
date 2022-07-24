@@ -1,8 +1,8 @@
 import { assertEquals } from 'testing/asserts.ts'
 
-import expected from './expected-data.ts'
+import expected from '../data/expected-data.ts'
 
-import { cmd, decode } from './utils.ts'
+import { cmd, decode } from '../utils/tests.ts'
 
 Deno.test('cp missing file', async t => {
   const p = Deno.run({
