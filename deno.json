@@ -1,0 +1,14 @@
+{
+	"tasks": {
+		"start": "deno run --allow-read --allow-write ./src/main.ts",
+		"test": "deno test ./test/ --allow-run",
+		"build": "deno compile -o deno-cp --allow-read --allow-write ./src/main.ts"
+	},
+  "fmt": {
+    "options": {
+			"indentWidth": 2,
+			"singleQuote": true
+    }
+  },
+	"importMap": "./import_map.json"
+}
