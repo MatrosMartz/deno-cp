@@ -1,4 +1,6 @@
-import information from './help.ts'
+import type { CPErrors } from './types/enums.ts'
+
+import information from './information.ts'
 
 export function showInfo() {
   console.log(information.description)
@@ -10,10 +12,11 @@ export function showInfo() {
 }
 
 export function showVersion() {
-  console.log('deno cp 0.0.1')
+  console.log(information.version)
 }
 
-export function showMissingFileError() {
-  console.error('cp: missing file operand\nTry \'cp --help\' for more information.')
+
+export function showError(errorType: CPErrors) {
+  console.error(information.errors[errorType])
   Deno.exit(1)
 }

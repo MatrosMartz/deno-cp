@@ -1,11 +1,13 @@
-import { showInfo, showVersion, showMissingFileError } from './show.ts'
+import { CPErrors } from './types/enums.ts' 
+
+import { showInfo, showVersion, showError } from './show.ts'
 
 const firstArg = Deno.args[0]
 
 const help = ['--help', '-h'].includes(firstArg)
 const version = ['--version', '-V'].includes(firstArg)
 
-if (!Deno.args.length) showMissingFileError()
+if (!Deno.args.length) showError(CPErrors.MissingFiles)
 else if (help) showInfo()
 else if (version) showVersion()
 else {
