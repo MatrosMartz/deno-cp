@@ -1,6 +1,7 @@
 {
   "imports": {
     "flags": "https://deno.land/std@0.149.0/flags/mod.ts",
-    "testing/": "https://deno.land/std@0.149.0/testing/"
+    "testing/": "https://deno.land/std@0.149.0/testing/",
+    "fs": "https://deno.land/std@0.149.0/fs/mod.ts"
   }
 }

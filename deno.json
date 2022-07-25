@@ -1,7 +1,7 @@
 {
 	"tasks": {
 		"start": "deno run --allow-read --allow-write ./src/main.ts",
-		"test": "deno test ./test/ --allow-run",
+		"test": "deno test ./test/ --allow-run --allow-read",
 		"build": "deno compile -o deno-cp --allow-read --allow-write ./src/main.ts"
 	},
   "fmt": {
