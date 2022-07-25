@@ -9,13 +9,19 @@ Deno.test('copy example.txt to example2.txt', async t => {
 
   p.close()
 
-  await t.step('example2.txt create', async () => {
+  await t.step('./res/example2.txt create', async () => {
     const actualText = await Deno.readTextFile('./res/example2.txt')
     
     assert(actualText)
   })
+
+  await t.step('example2.txt is file', async () => {
+    const actualExampleInfo = await Deno.lstat('./res/example2.txt')
+
+    assert(actualExampleInfo.isFile)
+  })
   
-  await t.step('example2.txt are equal to example.txt', async () => {
+  await t.step('./res/example2.txt are equal to example.txt', async () => {
     const actualText = await Deno.readTextFile('./res/example2.txt')
     
     const expectedText = await Deno.readTextFile('./res/example.txt')
