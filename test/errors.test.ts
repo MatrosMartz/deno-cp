@@ -1,10 +1,23 @@
 import { assertEquals } from 'testing/asserts.ts'
 
-import expected from '../data/expected-data.ts'
+import expected from '../data/expected-errors.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
-Deno.test('cp missing file', async t => {
+function errOut(p: Deno.Process<{ cmd: string[], stderr: 'piped' }>) {
+  return async () => {
+    const rawErrorOutput = await p.stderr.readable.getReader().read()
+
+    const actualErrorOutput = decode(rawErrorOutput.value)
+    
+    assertEquals(
+      actualErrorOutput,
+      expected.err.MissingFiles
+    )
+  }
+}
+
+Deno.test('copy missing file', async t => {
   const p = Deno.run({
     cmd: cmd(),
     stderr: 'piped'
@@ -15,53 +28,24 @@ Deno.test('cp missing file', async t => {
 
     assertEquals(
       actualStatus,
-      expected.missingFiles.status
+      expected.status
     )
   })
   
-  await t.step('error output', async () => {
-    const rawErrorOutput = await p.stderr.readable.getReader().read()
-
-    const actualErrorOutput = decode(rawErrorOutput.value)
-    
-    assertEquals(
-      actualErrorOutput,
-      expected.missingFiles.errorOutput
-    )
-  })
+  await t.step('error output', errOut(p))
   p.stderr.close()
   p.close()
 })
 
-Deno.test('cp help flag', async t => {
-  const helpTest = async (p: Deno.Process) => {
-    const rawOutput = await p.output()
-
-    const actualOutput = decode(rawOutput)
-
-    assertEquals(
-      actualOutput,
-      expected.helpFlagOutput
-    )
-
-    p.close()
-  }
-
-  await t.step('--help', async () => {
-    const p = Deno.run({
-      cmd: cmd('--help'),
-      stdout: 'piped'
-    })
-
-    await helpTest(p)
+Deno.test('copy No such file or directory', async t => {
+  const p = Deno.run({
+    cmd: cmd('.res/example.txt non-exist/'),
+    stderr: 'piped'
   })
 
-  await t.step('-h', async () => {
-    const p = Deno.run({
-      cmd: cmd('-h'),
-      stdout: 'piped'
-    })
+  await t.step('status code diferent to 0', errOut(p))
 
-    await helpTest(p)
+  await t.step('error output', async t => {
+
   })
 })

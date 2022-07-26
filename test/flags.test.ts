@@ -12,7 +12,7 @@ Deno.test('cp version flag', async t => {
 
     assertEquals(
       actualOutput,
-      expected.versionFlagOutput
+      expected.flag.versionFlagOutput
     )
 
     p.close()
@@ -34,5 +34,38 @@ Deno.test('cp version flag', async t => {
     })
 
     await versionTest(p)
+  })
+})
+
+Deno.test('cp help flag', async t => {
+  const helpTest = async (p: Deno.Process) => {
+    const rawOutput = await p.output()
+
+    const actualOutput = decode(rawOutput)
+
+    assertEquals(
+      actualOutput,
+      expected.flag.helpFlagOutput
+    )
+
+    p.close()
+  }
+
+  await t.step('--help', async () => {
+    const p = Deno.run({
+      cmd: cmd('--help'),
+      stdout: 'piped'
+    })
+
+    await helpTest(p)
+  })
+
+  await t.step('-h', async () => {
+    const p = Deno.run({
+      cmd: cmd('-h'),
+      stdout: 'piped'
+    })
+
+    await helpTest(p)
   })
 })

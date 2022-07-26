@@ -1,3 +1,5 @@
 export enum CPErrors {
-  MissingFiles = 'missingFiles'
+  MissingFiles = 'MissingFiles',
+  NoSuch = 'NoSuch',
+  NotADictory = 'NotADictory'
 }

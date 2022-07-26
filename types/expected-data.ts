@@ -1,13 +1,15 @@
 import type { CPErrors } from './enums.ts'
 
-type ErrorData = {
+import type { ReturnString } from './index.ts'
+
+export interface ExpectedErrors {
+  err: Record<CPErrors, ReturnString>
   status: Deno.ProcessStatus,
-  errorOutput: string
 }
 
-interface ExpectedData extends Record<CPErrors, ErrorData> {
-  helpFlagOutput: string
-  versionFlagOutput: string
+export interface ExpectedData {
+  flag: {
+    helpFlagOutput: string
+    versionFlagOutput: string
+  },
 }
-
-export default ExpectedData

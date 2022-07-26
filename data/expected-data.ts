@@ -1,13 +1,8 @@
-import type ExpectedData from '../types/expected-data.ts'
+import type { ExpectedData } from '../types/expected-data.ts'
 
-export default <ExpectedData>{
-  missingFiles: {
-    status: {
-      code: 1,
-      success: false
-    },
-    errorOutput: 'cp: missing file operand\nTry \'cp --help\' for more information.\n'
-  },
-  helpFlagOutput: 'cp command for copi :D\nOptions:\n   -h, --help:\n       Print information.\n   -V, --version:\n       Print version.\n',
-  versionFlagOutput: 'deno cp 0.0.1\n'
+export default <ExpectedData> {
+  flag: {
+    helpFlagOutput: 'cp command for copi :D\nOptions:\n   -h, --help:\n       Print information.\n   -V, --version:\n       Print version.\n',
+    versionFlagOutput: 'deno cp 0.0.1\n'
+  }
 }
