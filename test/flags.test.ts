@@ -1,6 +1,6 @@
 import { assertEquals } from 'testing/asserts.ts'
 
-import expected from '../data/expected-data.ts'
+import expected from '../test-data/expected-data.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
