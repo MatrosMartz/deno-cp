@@ -1,7 +1,6 @@
-export function cmd(str?: string) {
-  const run = ['deno', 'run', './src/main.ts']
-  if (str) return [...run, ...str.split(' ')]
-  return run
+export function cmd(args?: string[]) {
+  if (!args) return ['deno', 'run', './src/main.ts']
+  return ['deno', 'run', './src/main.ts', ...args]
 }
 
 const decoder = new TextDecoder()

@@ -38,7 +38,7 @@ Deno.test('copy missing file', async t => {
 
 Deno.test('copy No such file or directory', async t => {
   const p = Deno.run({
-    cmd: cmd('./res/no-exist-file example2.txt'),
+    cmd: cmd(['./res/no-exist-file','example2.txt']),
     stderr: 'piped'
   })
 

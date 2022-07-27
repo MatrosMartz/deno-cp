@@ -20,7 +20,7 @@ Deno.test('cp version flag', async t => {
 
   await t.step('--version', async () => {
     const p = Deno.run({
-      cmd: cmd('--version'),
+      cmd: cmd(['--version']),
       stdout: 'piped'
     })
 
@@ -29,7 +29,7 @@ Deno.test('cp version flag', async t => {
 
   await t.step('-V', async () => {
     const p = Deno.run({
-      cmd: cmd('-V'),
+      cmd: cmd(['-V']),
       stdout: 'piped'
     })
 
@@ -53,7 +53,7 @@ Deno.test('cp help flag', async t => {
 
   await t.step('--help', async () => {
     const p = Deno.run({
-      cmd: cmd('--help'),
+      cmd: cmd(['--help']),
       stdout: 'piped'
     })
 
@@ -62,7 +62,7 @@ Deno.test('cp help flag', async t => {
 
   await t.step('-h', async () => {
     const p = Deno.run({
-      cmd: cmd('-h'),
+      cmd: cmd(['-h']),
       stdout: 'piped'
     })
 

@@ -4,7 +4,7 @@ import { cmd } from '../utils/tests.ts'
 
 Deno.test('copy example.txt to example2.txt', async t => {
   const p = Deno.run({
-    cmd: cmd('./res/example.txt ./res/example2.txt')
+    cmd: cmd(['./res/example.txt', './res/example2.txt'])
   })
 
   p.close()
@@ -37,7 +37,7 @@ Deno.test('copy example.txt to example2.txt', async t => {
 
 Deno.test('copy example.txt in to copy/', async t => {
   const p = Deno.run({
-    cmd: cmd('./res/example.txt ./res/copy/')
+    cmd: cmd(['./res/example.txt', './res/copy/'])
   })
 
   p.close()
