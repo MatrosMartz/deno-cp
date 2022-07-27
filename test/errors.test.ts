@@ -57,3 +57,22 @@ Deno.test('copy No such file or directory', async t => {
 
   p.close()
 })
+
+Deno.test('copy Output Not a directory', async t => {
+  const p = Deno.run({
+    cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir'])
+  })
+
+  await t.step('status code diferent to 0', errStatus(p))
+
+  const rawErrorOutput = await p.stderrOutput()
+
+  await t.step('error output', () => {
+    const actualErrorOutput = decode(rawErrorOutput)
+
+    assertEquals(
+      actualErrorOutput,
+      expected.err.NotADictory
+    )
+  })
+})

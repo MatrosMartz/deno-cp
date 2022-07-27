@@ -4,7 +4,7 @@ import expected from '../test-data/expected-data.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
-Deno.test('cp version flag', async t => {
+Deno.test('copy version flag', async t => {
   const versionTest = async (p: Deno.Process) => {
     const rawOutput = await p.output()
 
@@ -37,7 +37,7 @@ Deno.test('cp version flag', async t => {
   })
 })
 
-Deno.test('cp help flag', async t => {
+Deno.test('copy help flag', async t => {
   const helpTest = async (p: Deno.Process) => {
     const rawOutput = await p.output()
 
