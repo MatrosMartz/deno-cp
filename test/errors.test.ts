@@ -4,15 +4,13 @@ import expected from '../data/expected-errors.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
-function errOut(p: Deno.Process<{ cmd: string[], stderr: 'piped' }>) {
+function errStatus(p: Deno.Process<{ cmd: string[], stderr: 'piped' }>) {
   return async () => {
-    const rawErrorOutput = await p.stderr.readable.getReader().read()
+    const actualStatus = await p.status()
 
-    const actualErrorOutput = decode(rawErrorOutput.value)
-    
     assertEquals(
-      actualErrorOutput,
-      expected.err.MissingFiles
+      actualStatus,
+      expected.status
     )
   }
 }
@@ -23,29 +21,39 @@ Deno.test('copy missing file', async t => {
     stderr: 'piped'
   })
   
-  await t.step('status code diferent to 0', async () => {
-    const actualStatus = await p.status()
+  await t.step('status code diferent to 0', errStatus(p))
 
+  const rawErrorOutput = await p.stderrOutput()
+  
+  await t.step('error output', () => {
+    const actualErrorOutput = decode(rawErrorOutput)
+    
     assertEquals(
-      actualStatus,
-      expected.status
+      actualErrorOutput,
+      expected.err.MissingFiles
     )
   })
-  
-  await t.step('error output', errOut(p))
-  p.stderr.close()
   p.close()
 })
 
 Deno.test('copy No such file or directory', async t => {
   const p = Deno.run({
-    cmd: cmd('.res/example.txt non-exist/'),
+    cmd: cmd('./res/no-exist-file example2.txt'),
     stderr: 'piped'
   })
 
-  await t.step('status code diferent to 0', errOut(p))
+  await t.step('status code diferent to 0', errStatus(p))
+  
+  const rawErrorOutput = await p.stderrOutput()
 
-  await t.step('error output', async t => {
+  await t.step('error output', () => {
+    const actualErrotOutput = decode(rawErrorOutput)
 
+    assertEquals(
+      actualErrotOutput,
+      expected.err.NoSuch
+    )
   })
+
+  p.close()
 })
