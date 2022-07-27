@@ -72,7 +72,7 @@ Deno.test('copy Output Not a directory', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NotADictory
+      expected.err.NotADirectory
     )
   })
 })
