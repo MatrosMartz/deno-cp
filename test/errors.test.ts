@@ -101,4 +101,25 @@ Deno.test('copy error: Not a directory', async t => {
 
     p.close()
   })
+
+  await t.step('copy file to a non-exist directory', async t => {
+    const p = Deno.run({
+      cmd: cmd(['./res/example.txt', './res/not-exits-dir/'])
+    })
+
+    await t.step('status code diferent to 0', errStatus(p))
+  
+    const rawErrorOutput = await p.stderrOutput()
+  
+    await t.step('error output', () => {
+      const actualErrorOutput = decode(rawErrorOutput)
+  
+      assertEquals(
+        actualErrorOutput,
+        expected.err.NotADirectoryAlt
+      )
+    })
+
+    p.close()
+  })
 })
