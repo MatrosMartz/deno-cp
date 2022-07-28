@@ -1,4 +1,3 @@
-import expectedErrors from '../test-data/expected-errors.ts'
 import { CPErrors } from './enums.ts'
 
 type ExcErrorKeys = `${CPErrors}${'Alt' | ''}`
