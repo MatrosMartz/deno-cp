@@ -14,9 +14,10 @@ const information: Information = {
   ],
   version: 'deno cp 0.0.1',
   errors: {
-    MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.',
-    NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory`,
-    NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory`,
+    MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.\n',
+    NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory\n`,
+    NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory\n`,
+    NotParseable: (src) => `cp: parse error near: '${src}'\n`,
   }
 }
 

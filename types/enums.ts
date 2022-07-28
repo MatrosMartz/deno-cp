@@ -1,5 +1,6 @@
 export enum CPErrors {
   MissingFiles = 'MissingFiles',
   NoSuch = 'NoSuch',
-  NotADirectory = 'NotADirectory'
+  NotADirectory = 'NotADirectory',
+  NotParseable = 'NotParseable'
 }

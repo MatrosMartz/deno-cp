@@ -3,9 +3,11 @@ import type { ExpectedErrors } from '../types/expected-data.ts'
 export default <ExpectedErrors> {
   err: {
     MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.\n',
-    NotADirectory: 'cp: cannot create regular file \'./res/not-is-dir/\': Not a directory',
-    NotADirectoryAlt: 'cp: cannot create regular file \'./res/not-exist-dir/\': Not a directory',
-    NoSuch: 'cp: cannot stat \'./res/no-exist\': No such file or directory',
+    NotADirectory: 'cp: cannot create regular file \'./res/not-is-dir/\': Not a directory\n',
+    NotADirectoryAlt: 'cp: cannot create regular file \'./res/no-exist-dir/\': Not a directory\n',
+    NoSuch: 'cp: cannot stat \'./res/no-exist\': No such file or directory\n',
+    NotParseable: 'cp:  parse error near: \'}\'\n',
+    NotParseableAlt: 'cp:  parse error near: \'}./res-not-exist\'\n',
   },
   status: {
     code: 1,
