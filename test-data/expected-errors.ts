@@ -1,4 +1,4 @@
-import type { ExpectedErrors } from '../types/expected-data.ts'
+import type { ExpectedErrors } from '../types/expected.ts'
 
 export default <ExpectedErrors> {
   err: {

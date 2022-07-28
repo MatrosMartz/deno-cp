@@ -1,3 +1,4 @@
+import expectedErrors from '../test-data/expected-errors.ts'
 import { CPErrors } from './enums.ts'
 
 type ExcErrorKeys = `${CPErrors}${'Alt' | ''}`
@@ -11,9 +12,8 @@ export interface ExpectedErrors {
   status: Deno.ProcessStatus
 }
 
-export interface ExpectedData {
-  flag: {
-    helpFlagOutput: string
-    versionFlagOutput: string
-  }
+export interface ExpectedOuts {
+  examplesFiles: string
+  helpFlag: string
+  versionFlag: string
 }
