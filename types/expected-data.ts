@@ -1,15 +1,19 @@
-import type { CPErrors } from './enums.ts'
+import { CPErrors } from './enums.ts'
 
-import type { ReturnString } from './index.ts'
+type ExcErrorKeys = `${CPErrors}${'Alt' | ''}`
+
+type ExcError = {
+  [i in ExcErrorKeys]?: string
+}
 
 export interface ExpectedErrors {
-  err: Record<CPErrors, ReturnString>
-  status: Deno.ProcessStatus,
+  err: ExcError
+  status: Deno.ProcessStatus
 }
 
 export interface ExpectedData {
   flag: {
     helpFlagOutput: string
     versionFlagOutput: string
-  },
+  }
 }
