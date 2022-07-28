@@ -15,7 +15,7 @@ function errStatus(p: Deno.Process<{ cmd: string[], stderr: 'piped' }>) {
   }
 }
 
-Deno.test('copy missing file', async t => {
+Deno.test('copy error: missing file', async t => {
   const p = Deno.run({
     cmd: cmd(),
     stderr: 'piped'
@@ -33,10 +33,11 @@ Deno.test('copy missing file', async t => {
       expected.err.MissingFiles
     )
   })
+
   p.close()
 })
 
-Deno.test('copy No such file or directory', async t => {
+Deno.test('copy error: No such file or directory', async t => {
   const p = Deno.run({
     cmd: cmd(['./res/no-exist-file','example2.txt']),
     stderr: 'piped'
@@ -58,21 +59,46 @@ Deno.test('copy No such file or directory', async t => {
   p.close()
 })
 
-Deno.test('copy Output Not a directory', async t => {
-  const p = Deno.run({
-    cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir'])
+Deno.test('copy error: Not a directory', async t => {
+  await t.step('copy multiple files to a non-directory', async t => {
+    const p = Deno.run({
+      cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir'])
+    })
+
+    await t.step('status code diferent to 0', errStatus(p))
+  
+    const rawErrorOutput = await p.stderrOutput()
+  
+    await t.step('error output', () => {
+      const actualErrorOutput = decode(rawErrorOutput)
+  
+      assertEquals(
+        actualErrorOutput,
+        expected.err.NotADirectory
+      )
+    })
+
+    p.close()
   })
 
-  await t.step('status code diferent to 0', errStatus(p))
+  await t.step('copy one file to a non-directory', async t => {
+    const p = Deno.run({
+      cmd: cmd(['./res/example.txt', './res/not-is-dir/'])
+    })
 
-  const rawErrorOutput = await p.stderrOutput()
+    await t.step('status code diferent to 0', errStatus(p))
+  
+    const rawErrorOutput = await p.stderrOutput()
+  
+    await t.step('error output', () => {
+      const actualErrorOutput = decode(rawErrorOutput)
+  
+      assertEquals(
+        actualErrorOutput,
+        expected.err.NotADirectory
+      )
+    })
 
-  await t.step('error output', () => {
-    const actualErrorOutput = decode(rawErrorOutput)
-
-    assertEquals(
-      actualErrorOutput,
-      expected.err.NotADirectory
-    )
+    p.close()
   })
 })
