@@ -1,6 +1,3 @@
-import { copy } from 'fs'
-import { resolve } from 'path'
-
 import { CPErrors } from '../types/enums.ts'
 
 import { showInfo, showVersion, showError } from './show.ts'

@@ -1,6 +1,6 @@
 import type { CPErrors } from '../types/enums.ts'
 
-import information from './information.ts'
+import information from '../data/information.ts'
 
 export function showInfo() {
   console.log(information.description)

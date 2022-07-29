@@ -1,4 +1,4 @@
-import { CPErrors } from './enums.ts'
+import type { CPErrors } from './enums.ts'
 
 import type { ReturnString } from './index.ts'
 

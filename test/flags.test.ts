@@ -1,6 +1,6 @@
 import { assertEquals } from 'testing/asserts.ts'
 
-import expected from '../test-data/expected-data.ts'
+import expected from '../test-data/expected-out.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
@@ -12,7 +12,7 @@ Deno.test('copy version flag', async t => {
 
     assertEquals(
       actualOutput,
-      expected.flag.versionFlagOutput
+      expected.versionFlag
     )
 
     p.close()
@@ -45,7 +45,7 @@ Deno.test('copy help flag', async t => {
 
     assertEquals(
       actualOutput,
-      expected.flag.helpFlagOutput
+      expected.helpFlag
     )
 
     p.close()
