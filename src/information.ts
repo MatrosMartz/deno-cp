@@ -4,7 +4,7 @@ const information: Information = {
   description: 'cp command for copi :D',
   options: [
     {
-      names: ['-h','--help'],
+      names: ['-h', '--help'],
       description: 'Print information.'
     },
     {
@@ -17,7 +17,6 @@ const information: Information = {
     MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.\n',
     NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory\n`,
     NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory\n`,
-    NotParseable: (src) => `cp: parse error near: '${src}'\n`,
   }
 }
 

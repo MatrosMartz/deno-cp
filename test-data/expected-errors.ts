@@ -7,8 +7,6 @@ export default <ExpectedErrors> {
     NotADirectoryAlt: 'cp: cannot create regular file \'./res/no-exist-dir/\': Not a directory\n',
     NoSuch: 'cp: cannot stat \'./res/no-exist\': No such file or directory\n',
     NoSuchAlt: 'cp: cannot stat \'./res/no-exist/example3.txt\': No such file or directory\n',
-    NotParseable: 'cp:  parse error near: \'}\'\n',
-    NotParseableAlt: 'cp:  parse error near: \'}./res-not-exist\'\n',
   },
   status: {
     code: 1,
