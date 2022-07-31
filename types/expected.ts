@@ -15,4 +15,5 @@ export interface ExpectedOuts {
   examplesFiles: string
   helpFlag: string
   versionFlag: string
+  status: Deno.ProcessStatus
 }
