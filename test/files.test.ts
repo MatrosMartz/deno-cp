@@ -4,15 +4,6 @@ import { cmd } from '../utils/tests.ts'
 
 import { expectedStatus } from '../test-data/expected-out.ts'
 
-function testStatus(actualStatus: Deno.Process): () => Promise<void> {
-  return async () => {
-    assertEquals(
-      await actualStatus.status(),
-      expectedStatus
-    )
-  }
-}
-
 Deno.test('copy example.txt to example2.txt', async t => {
   const p = Deno.run({
     cmd: cmd(['./res/example.txt', './res/example2.txt'])
@@ -20,7 +11,13 @@ Deno.test('copy example.txt to example2.txt', async t => {
 
   p.close()
 
-  await t.step('correct execution', testStatus(p))
+  await t.step('correct execution', async () => {
+    const actualStatus = await p.status() 
+    assertEquals(
+      actualStatus,
+      expectedStatus
+    )
+  })
 
   await t.step('example2.txt create', async () => {
     const actualText = await Deno.readTextFile('./res/example2.txt')
@@ -55,7 +52,13 @@ Deno.test('copy example.txt in to copy/', async t => {
 
   p.close()
 
-  await t.step('correct execution', testStatus(p))
+  await t.step('correct execution', async () => {
+    const actualStatus = await p.status() 
+    assertEquals(
+      actualStatus,
+      expectedStatus
+    )
+  })
 
   await t.step('copy/example.txt create', async () => {
     const actualText = await Deno.readTextFile('./res/example2.txt')
