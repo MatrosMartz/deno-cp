@@ -6,13 +6,13 @@ import { cmd, decode } from '../utils/tests.ts'
 
 Deno.test('copy version flag', async t => {
   await t.step('--version', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['--version']),
       stdout: 'piped'
     })
 
     await t.step('output', async () => {
-      const rawOutput = await p.output()
+      const rawOutput = await process.output()
 
       const actualOutput = decode(rawOutput)
 
@@ -22,10 +22,10 @@ Deno.test('copy version flag', async t => {
       )
     })
     
-    p.close()
+    process.close()
 
     await t.step('status', async () => {
-      const actualStatus = await p.status() 
+      const actualStatus = await process.status() 
       assertEquals(
         actualStatus,
         expectedStatus
@@ -34,13 +34,13 @@ Deno.test('copy version flag', async t => {
   })
 
   await t.step('-V', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['-V']),
       stdout: 'piped'
     })
 
     await t.step('output', async () => {
-      const rawOutput = await p.output()
+      const rawOutput = await process.output()
 
       const actualOutput = decode(rawOutput)
 
@@ -50,10 +50,10 @@ Deno.test('copy version flag', async t => {
       )
     })
 
-    p.close()
+    process.close()
 
     await t.step('status', async () => {
-      const actualStatus = await p.status() 
+      const actualStatus = await process.status() 
       assertEquals(
         actualStatus,
         expectedStatus
@@ -64,13 +64,13 @@ Deno.test('copy version flag', async t => {
 
 Deno.test('copy help flag', async t => {
   await t.step('--help', async () => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['--help']),
       stdout: 'piped'
     })
 
     await t.step('output', async () => {
-      const rawOutput = await p.output()
+      const rawOutput = await process.output()
 
       const actualOutput = decode(rawOutput)
 
@@ -80,10 +80,10 @@ Deno.test('copy help flag', async t => {
       )
     })
 
-    p.close()
+    process.close()
 
     await t.step('status', async () => {
-      const actualStatus = await p.status()
+      const actualStatus = await process.status()
 
       assertEquals(
         actualStatus,
@@ -93,13 +93,13 @@ Deno.test('copy help flag', async t => {
   })
 
   await t.step('-h', async () => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['-h']),
       stdout: 'piped'
     })
 
     await t.step('output', async () => {
-      const rawOutput = await p.output()
+      const rawOutput = await process.output()
 
       const actualOutput = decode(rawOutput)
 
@@ -109,10 +109,10 @@ Deno.test('copy help flag', async t => {
       )
     })
 
-    p.close()
+    process.close()
 
     await t.step('status', async () => {
-      const actualStatus = await p.status()
+      const actualStatus = await process.status()
 
       assertEquals(
         actualStatus,

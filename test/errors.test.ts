@@ -4,26 +4,22 @@ import expected from '../test-data/expected-errors.ts'
 
 import { cmd, decode } from '../utils/tests.ts'
 
-function errStatus(p: Deno.Process<{ cmd: string[], stderr: 'piped' }>) {
-  return async () => {
-    const actualStatus = await p.status()
+Deno.test('copy error: missing file', async t => {
+  const process = Deno.run({
+    cmd: cmd(),
+    stderr: 'piped'
+  })
+  
+  await t.step('status code diferent to 0', async () => {
+    const actualStatus = await process.status()
 
     assertEquals(
       actualStatus,
       expected.status
     )
-  }
-}
-
-Deno.test('copy error: missing file', async t => {
-  const p = Deno.run({
-    cmd: cmd(),
-    stderr: 'piped'
   })
-  
-  await t.step('status code diferent to 0', errStatus(p))
 
-  const rawErrorOutput = await p.stderrOutput()
+  const rawErrorOutput = await process.stderrOutput()
   
   await t.step('error output', () => {
     const actualErrorOutput = decode(rawErrorOutput)
@@ -34,19 +30,26 @@ Deno.test('copy error: missing file', async t => {
     )
   })
 
-  p.close()
+  process.close()
 })
 
 Deno.test('copy error: No such file or directory', async t => {
   await t.step('copy src file no exist', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['./res/no-exist','example2.txt']),
       stderr: 'piped'
     })
 
-    await t.step('status code diferent to 0', errStatus(p))
+    await t.step('status code diferent to 0', async () => {
+    const actualStatus = await process.status()
+
+    assertEquals(
+      actualStatus,
+      expected.status
+    )
+  })
     
-    const rawErrorOutput = await p.stderrOutput()
+    const rawErrorOutput = await process.stderrOutput()
     
     await t.step('error output', () => {
       const actualErrotOutput = decode(rawErrorOutput)
@@ -57,16 +60,24 @@ Deno.test('copy error: No such file or directory', async t => {
         )
       })
     
-    p.close()
+    process.close()
   })
 
   await t.step('copy dest directory no exist', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['./res/example.txt', './res/no-exist/example3.txt'])
     })
 
-    await t.step('status code diferent to 0', errStatus(p))
-    const rawErrorOutput = await p.stderrOutput()
+    await t.step('status code diferent to 0', async () => {
+      const actualStatus = await process.status()
+
+      assertEquals(
+        actualStatus,
+        expected.status
+      )
+    })
+
+    const rawErrorOutput = await process.stderrOutput()
 
     await t.step('error output', () => {
       const actualErrorOutput = decode(rawErrorOutput)
@@ -81,13 +92,20 @@ Deno.test('copy error: No such file or directory', async t => {
 
 Deno.test('copy error: Not a directory', async t => {
   await t.step('copy multiple files to a non-directory', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir'])
     })
 
-    await t.step('status code diferent to 0', errStatus(p))
+    await t.step('status code diferent to 0', async () => {
+      const actualStatus = await process.status()
+
+      assertEquals(
+        actualStatus,
+        expected.status
+      )
+    })
   
-    const rawErrorOutput = await p.stderrOutput()
+    const rawErrorOutput = await process.stderrOutput()
   
     await t.step('error output', () => {
       const actualErrorOutput = decode(rawErrorOutput)
@@ -98,17 +116,24 @@ Deno.test('copy error: Not a directory', async t => {
       )
     })
 
-    p.close()
+    process.close()
   })
 
   await t.step('copy one file to a non-directory', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['./res/example.txt', './res/no-is-dir/'])
     })
 
-    await t.step('status code diferent to 0', errStatus(p))
+    await t.step('status code diferent to 0', async () => {
+      const actualStatus = await process.status()
+
+      assertEquals(
+        actualStatus,
+        expected.status
+      )
+    })
   
-    const rawErrorOutput = await p.stderrOutput()
+    const rawErrorOutput = await process.stderrOutput()
   
     await t.step('error output', () => {
       const actualErrorOutput = decode(rawErrorOutput)
@@ -119,17 +144,24 @@ Deno.test('copy error: Not a directory', async t => {
       )
     })
 
-    p.close()
+    process.close()
   })
 
   await t.step('copy file to a non-exist directory', async t => {
-    const p = Deno.run({
+    const process = Deno.run({
       cmd: cmd(['./res/example.txt', './res/no-exits-dir/'])
     })
 
-    await t.step('status code diferent to 0', errStatus(p))
+    await t.step('status code diferent to 0', async () => {
+      const actualStatus = await process.status()
+
+      assertEquals(
+        actualStatus,
+        expected.status
+      )
+    })
   
-    const rawErrorOutput = await p.stderrOutput()
+    const rawErrorOutput = await process.stderrOutput()
   
     await t.step('error output', () => {
       const actualErrorOutput = decode(rawErrorOutput)
@@ -140,6 +172,6 @@ Deno.test('copy error: Not a directory', async t => {
       )
     })
 
-    p.close()
+    process.close()
   })
 })
