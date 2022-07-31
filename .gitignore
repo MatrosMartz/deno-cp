@@ -1,4 +1,3 @@
 .vscode/
 
-deno-cp.exe
-deno-cp
+bin
