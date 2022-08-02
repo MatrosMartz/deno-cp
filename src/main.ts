@@ -7,36 +7,33 @@ const firstArg = Deno.args[0]
 const help = ['--help', '-h'].includes(firstArg)
 const version = ['--version', '-V'].includes(firstArg)
 
-async function exist(src: string) {
-  try {
-    const stat = await Deno.lstat(src)
-
-    return {
-      exist: true,
-      stat
-    }
-  } catch (err) {
-    if (err.name === 'NotFound') return {
-      exist: false
-    }
-
-    throw err
-  }
-}
-
 if (!Deno.args.length) showError(CPErrors.MissingFiles)
 else if (help) showInfo()
 else if (version) showVersion()
 else if (Deno.args.length === 2) {
-  const srcDir = Deno.args[0]
-  const destDir = Deno.args[1]
+  try {
+    const srcPath = Deno.args[0]
+    const destPath = Deno.args[1]
 
-  const src = await exist(srcDir)
-  const dest = await exist(destDir)
+    const srcStats = await Deno.lstat(srcPath)
 
-  if (src.exist && dest.exist) {
-    console.log(src.stat?.isFile, dest.stat?.isDirectory)
+    if (srcStats.isFile) {
+      const srcText = await Deno.readFile(srcPath)
+
+      const finPath = ['\\', '/'].includes(<string>destPath.at(-1)) ? destPath + srcPath : destPath
+
+      const destFile = await Deno.create(finPath)
+
+      await destFile.write(srcText)
+    }
+  } catch (err) {
+    if (err instanceof Deno.errors.NotFound) {
+      showError(CPErrors.NoSuch)
+    } else {
+      throw err
+    }
   }
+
 }
 else {
   const inputs = Deno.args.slice(0, -1)
