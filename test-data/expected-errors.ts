@@ -6,7 +6,7 @@ export default <ExpectedErrors> {
     NotADirectory: 'cp: cannot create regular file \'./res/not-is-dir/\': Not a directory\n',
     NotADirectoryAlt: 'cp: cannot create regular file \'./res/no-exist-dir/\': Not a directory\n',
     NoSuch: 'cp: cannot stat \'./res/no-exist\': No such file or directory\n',
-    NoSuchAlt: 'cp: cannot stat \'./res/no-exist/example3.txt\': No such file or directory\n',
+    NoSuchAlt: 'cp: cannot stat \'./res/no-exist/dest-file.txt\': No such file or directory\n',
   },
   status: {
     code: 1,

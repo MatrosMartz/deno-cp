@@ -41,13 +41,13 @@ Deno.test('copy error: No such file or directory', async t => {
     })
 
     await t.step('status code diferent to 0', async () => {
-    const actualStatus = await process.status()
+      const actualStatus = await process.status()
 
-    assertEquals(
-      actualStatus,
-      expected.status
-    )
-  })
+      assertEquals(
+        actualStatus,
+        expected.status
+      )
+    })
     
     const rawErrorOutput = await process.stderrOutput()
     
@@ -65,7 +65,8 @@ Deno.test('copy error: No such file or directory', async t => {
 
   await t.step('copy dest directory no exist', async t => {
     const process = Deno.run({
-      cmd: cmd(['./res/example.txt', './res/no-exist/example3.txt'])
+      cmd: cmd(['./res/copy-file-1.txt', './res/no-exist/dest-file.txt']),
+      stderr: 'piped'
     })
 
     await t.step('status code diferent to 0', async () => {
@@ -87,13 +88,16 @@ Deno.test('copy error: No such file or directory', async t => {
         expected.err.NoSuchAlt
       )
     })
+
+    process.close()
   })
 })
 
 Deno.test('copy error: Not a directory', async t => {
   await t.step('copy multiple files to a non-directory', async t => {
     const process = Deno.run({
-      cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir'])
+      cmd: cmd(['./res/example.txt', './res/example1.txt', './res/not-is-dir']),
+      stderr: 'piped'
     })
 
     await t.step('status code diferent to 0', async () => {

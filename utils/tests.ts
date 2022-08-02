@@ -1,6 +1,6 @@
 export function cmd(args?: string[]): string[] {
   if (!args) return ['deno', 'run', './src/main.ts']
-  return ['deno', 'run', './src/main.ts', ...args]
+  return ['deno', 'run', '--allow-read', '--allow-write', './src/main.ts', ...args]
 }
 
 const decoder = new TextDecoder()
