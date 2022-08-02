@@ -28,7 +28,11 @@ else if (Deno.args.length === 2) {
     }
   } catch (err) {
     if (err instanceof Deno.errors.NotFound) {
-      showError(CPErrors.NoSuch)
+      const initFile = err.message.indexOf('\'')
+
+      const file = err.message.slice(initFile).replaceAll('\'', '')
+
+      showError(CPErrors.NoSuch, file)
     } else {
       throw err
     }
