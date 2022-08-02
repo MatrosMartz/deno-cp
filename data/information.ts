@@ -1,6 +1,6 @@
 import type { Information } from '../types/information.ts'
 
-const information: Information = {
+export default <Information> {
   description: 'cp command for copi :D',
   options: [
     {
@@ -14,10 +14,8 @@ const information: Information = {
   ],
   version: 'deno cp 0.0.1',
   errors: {
-    MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.\n',
-    NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory\n`,
-    NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory\n`,
+    MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.',
+    NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory`,
+    NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory`,
   }
 }
-
-export default information
