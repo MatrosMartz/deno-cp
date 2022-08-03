@@ -10,9 +10,9 @@ export async function exists(path: string): Promise<Exists> {
     return pathStats
 
   } catch (err) {
-    if (err instanceof Deno.errors.NotFound) return 'NotFound'
-    
-    throw err
+    if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
+      return 'NotFound'
+    else throw err
   }
 }
 
