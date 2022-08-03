@@ -96,7 +96,7 @@ Deno.test('copy error: No such file or directory', async t => {
 Deno.test('copy error: Not a directory', async t => {
   await t.step('copy multiple files to a non-directory', async t => {
     const process = Deno.run({
-      cmd: cmd(['./res/example.txt', './res/example1.txt', './res/is-not-dir/']),
+      cmd: cmd(['./res/copy-file-1.txt', './res/copy-file-2.txt', './res/is-not-dir/']),
       stderr: 'piped'
     })
 
