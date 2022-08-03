@@ -35,9 +35,13 @@ else {
 
 
       } else {
-        const destFile = await Deno.create(dest)
-        
-        await destFile.write(srcText)
+        try {
+          const destFile = await Deno.create(dest)
+          
+          await destFile.write(srcText)
+        } catch (err) {
+          if (err instanceof Deno.errors.NotFound) showError(CPErrors.NoSuch, dest)
+        }
       }
     }
   }
