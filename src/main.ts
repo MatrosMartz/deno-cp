@@ -21,9 +21,7 @@ else {
   const srcsStat = await srcsExist(srcs)
 
   const destStat = await exists(dest)
-
-  const srcsBasename = srcs.map(str => basename(str))
-
+  
   if (srcs.length === 1) {
     if (srcsStat[0].isFile) {
       const srcText = await Deno.readFile(srcs[0])
@@ -45,10 +43,12 @@ else {
       }
     }
   }
+  
+  const basenames = srcs.map(str => basename(str))
 
   if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
   else {
-    const newFiles = srcs.map(str => join(dest, str))
+    const newFiles = basenames.map(str => join(dest, str))
     console.log(newFiles, dest)
   }
 }
