@@ -35,7 +35,7 @@ Deno.test('copy multiple files to a non-directory', async t => {
 
 Deno.test('copy one file to a non-directory', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/is-no-dir/']),
+    cmd: cmd(['./res/copy-file-1.txt', './res/is-not-dir/']),
     stderr: 'piped'
   })
 
@@ -64,7 +64,7 @@ Deno.test('copy one file to a non-directory', async t => {
 
 Deno.test('copy file to a non-exist directory', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/no-exits-dir/']),
+    cmd: cmd(['./res/copy-file-1.txt', './res/no-exist-dir/']),
     stderr: 'piped'
   })
 
