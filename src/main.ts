@@ -1,4 +1,8 @@
+import { join } from 'path'
+
 import { CPErrors } from '../types/enums.ts'
+
+import { getFileError } from '../utils/errors.ts'
 
 import { showInfo, showVersion, showError } from './show.ts'
 
@@ -28,9 +32,8 @@ else if (Deno.args.length === 2) {
     }
   } catch (err) {
     if (err instanceof Deno.errors.NotFound) {
-      const initFile = err.message.indexOf('\'')
 
-      const file = err.message.slice(initFile).replaceAll('\'', '')
+      const file = getFileError(err.message)
 
       showError(CPErrors.NoSuch, file)
     } else {
@@ -40,8 +43,24 @@ else if (Deno.args.length === 2) {
 
 }
 else {
-  const inputs = Deno.args.slice(0, -1)
-  const output = <string>Deno.args.at(-1)
+  try {
+    const srcs = Deno.args.slice(0, -1)
+    const dest = <string>Deno.args.at(-1)
 
-  console.log(inputs, output)
+    const destStat = await Deno.stat(dest)
+
+    if (destStat.isDirectory) {
+      const newFiles = srcs.map(str => join(dest, str))
+      console.log(newFiles, dest)
+    }
+  } catch (err) {
+    if (err instanceof Deno.errors.NotFound) {
+
+      const file = getFileError(err.message)
+
+      showError(CPErrors.NotADirectory, file)
+    } else {
+      throw err
+    }
+  }
 }
