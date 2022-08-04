@@ -8,16 +8,16 @@ Deno.test('copy one file to a new file', async t => {
   const process = Deno.run({
     cmd: cmd(['./res/copy-file-1.txt', './res/create-file.txt'])
   })
-
-  process.close()
-
+  
   await t.step('correct execution', async () => {
     const actualStatus = await process.status() 
     assertEquals(
       actualStatus,
       expectedStatus
-    )
-  })
+      )
+    })
+
+  process.close()
 
   await t.step('new file is file', async () => {
     const actualExampleInfo = await Deno.lstat('./res/create-file.txt')
@@ -37,8 +37,6 @@ Deno.test('copy one file to a new file', async t => {
   })
 
   await t.step('deleted new file', async () => {
-    assert(
-      await Deno.remove('./res/create-file.txt')
-    )
+    await Deno.remove('./res/create-file.txt')
   })
 })
