@@ -28,6 +28,8 @@ else {
 
       const destIsDir = ['\\', '/'].includes(<string>dest.at(-1))
 
+      console.log(destIsDir)
+
       if (destIsDir) {
         if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
 
@@ -42,13 +44,13 @@ else {
         }
       }
     }
-  }
+  } else {
+    const basenames = srcs.map(str => basename(str))
   
-  const basenames = srcs.map(str => basename(str))
-
-  if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
-  else {
-    const newFiles = basenames.map(str => join(dest, str))
-    console.log(newFiles, dest)
+    if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
+    else {
+      const newFiles = basenames.map(str => join(dest, str))
+      console.log(newFiles, dest)
+    }
   }
 }
