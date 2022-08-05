@@ -9,16 +9,17 @@ Deno.test('copy one file in to directory dest', async t => {
     cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir/'])
   })
 
-  process.close()
-
-  await t.step('correct execution', async () => {
-    const actualStatus = await process.status() 
+  const actualStatus = await process.status() 
+  
+  await t.step('correct execution', () => {
     assertEquals(
       actualStatus,
       expectedStatus
     )
   })
 
+  process.close()
+  
   await t.step('new file is file', async () => {
     const actualExampleInfo = await Deno.lstat('./res/dest-dir/copy-file-1.txt')
 
@@ -48,15 +49,16 @@ Deno.test('copy one file in to directory dest renaming id', async t => {
     cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir/created-file'])
   })
 
-  process.close()
-
-  await t.step('correct execution', async () => {
-    const actualStatus = await process.status() 
+  const actualStatus = await process.status() 
+  
+  await t.step('correct execution', () => {
     assertEquals(
       actualStatus,
       expectedStatus
     )
   })
+
+  process.close()
 
   await t.step('new file is file', async () => {
     const actualExampleInfo = await Deno.lstat('./res/dest-dir/created-file.txt')

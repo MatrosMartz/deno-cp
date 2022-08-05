@@ -14,8 +14,8 @@ Deno.test('copy one file to a new file', async t => {
     assertEquals(
       actualStatus,
       expectedStatus
-      )
-    })
+    )
+  })
 
   process.close()
 

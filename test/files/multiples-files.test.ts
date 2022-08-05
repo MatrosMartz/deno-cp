@@ -9,16 +9,16 @@ Deno.test('copy multiple files in to directory dest', async t => {
     cmd: cmd(['copy-file-1', 'copy-file-2', 'dest-dir'])
   })
 
-  process.close()
-
-  await t.step('correct execution', async () => {
-    const actualStatus = await process.status()
-
+  const actualStatus = await process.status() 
+  
+  await t.step('correct execution', () => {
     assertEquals(
       actualStatus,
       expectedStatus
     )
   })
+
+  process.close()
 
   await t.step('new files are files', async t =>{
     await t.step('first file is file', async() => {

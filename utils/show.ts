@@ -11,7 +11,6 @@ export function showInfo() {
     console.log('   ' + names.join(', ') + ':')
     console.log('       ' + description)
   }
-
 }
 
 export function showVersion() {
