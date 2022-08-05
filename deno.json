@@ -1,7 +1,10 @@
 {
 	"tasks": {
 		"start": "deno run --allow-read --allow-write ./src/main.ts",
-		"test": "deno test ./test/ --allow-run --allow-read --allow-write",
+		"tests": "deno test ./test/ --allow-run --allow-read --allow-write",
+		"tests:errors": "deno test ./test/errors/ --allow-run --allow-read --allow-write",
+		"tests:files": "deno test ./test/files --allow-run --allow-read --allow-write",
+		"tests:flags": "deno test ./test/flags.test.ts --allow-run --allow-read --allow-write",
 		"build": "deno compile -o bin/deno-cp --allow-read --allow-write ./src/main.ts"
 	},
   "fmt": {
