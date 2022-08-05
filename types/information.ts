@@ -11,5 +11,15 @@ export interface Information {
   description: string
   options: Option[]
   version: string
-  errors: Record<CPErrors, ReturnString>
+  errors: {
+    [CPErrors.MissingFiles]: string
+    [CPErrors.NoSuch]: ReturnString
+    [CPErrors.NotADirectory]: ReturnString
+  }
+}
+
+export interface ShowErrors {
+  [CPErrors.MissingFiles]: () => string
+  [CPErrors.NoSuch]: ReturnString
+  [CPErrors.NotADirectory]: ReturnString
 }

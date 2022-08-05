@@ -2,9 +2,7 @@ import { join, basename } from 'path'
 
 import { exists, srcsExist } from '../utils/errors.ts'
 
-import { CPErrors } from '../types/enums.ts'
-
-import { showError } from '../utils/show.ts'
+import { showErrors } from '../utils/show.ts'
 
 export default async function (srcs: string[], dest: string): Promise<void> {
 
@@ -21,7 +19,7 @@ export default async function (srcs: string[], dest: string): Promise<void> {
       console.log(destIsDir)
 
       if (destIsDir) {
-        if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
+        if (destStat === 'NotFound' || !destStat.isDirectory) showErrors.NotADirectory(dest)
 
 
       } else {
@@ -30,17 +28,14 @@ export default async function (srcs: string[], dest: string): Promise<void> {
           
           await destFile.write(srcText)
         } catch (err) {
-          if (err instanceof Deno.errors.NotFound) showError(CPErrors.NoSuch, dest)
+          if (err instanceof Deno.errors.NotFound) showErrors.NoSuch(dest)
         }
       }
     }
   } else {
-    const basenames = srcs.map(str => basename(str))
-  
-    if (destStat === 'NotFound' || !destStat.isDirectory) showError(CPErrors.NotADirectory, dest)
-    else {
-      const newFiles = basenames.map(str => join(dest, str))
-      console.log(newFiles, dest)
-    }
+    if (destStat === 'NotFound' || !destStat.isDirectory) showErrors.NotADirectory(dest)
+
+    const newFiles = srcs.map(str => join(dest, basename(str)))
+    console.log(newFiles, dest)
   }
 }

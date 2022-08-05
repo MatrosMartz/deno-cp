@@ -1,4 +1,5 @@
-import type { CPErrors } from '../types/enums.ts'
+import { CPErrors } from '../types/enums.ts'
+import { ShowErrors } from '../types/information.ts'
 
 import information from '../data/information.ts'
 
@@ -15,11 +16,20 @@ export function showVersion() {
   console.log(information.version)
 }
 
-export function showError(errorType: CPErrors, str = '') {
+export const showErrors: ShowErrors = {
+  MissingFiles() {
+    console.error(information.errors[CPErrors.MissingFiles])
 
-  const err = information.errors[errorType]
-  if (typeof err === 'string') console.error(err)
-  else console.error(err(str))
+    Deno.exit(1)
+  },
+  NoSuch(str) {
+    console.error(information.errors[CPErrors.NoSuch](str))
   
-  Deno.exit(1)
+    Deno.exit(1)
+  },
+  NotADirectory(str) {
+    console.error(information.errors[CPErrors.NotADirectory](str))
+  
+    Deno.exit(1)
+  },
 }
