@@ -1,4 +1,4 @@
-import { showInfo, showVersion, showErrors } from '../utils/show.ts'
+import { showInfo, showVersion, showErrors } from './show.ts'
 
 import copy from './copy.ts'
 

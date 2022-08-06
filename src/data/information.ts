@@ -1,4 +1,4 @@
-import type { Information } from '../types/information.ts'
+import type { Information } from '../../types/information.ts'
 
 export default <Information> {
   description: 'cp command for copi :D',
