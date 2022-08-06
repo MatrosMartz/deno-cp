@@ -2,11 +2,11 @@ import { join, basename } from 'path'
 
 import { exists, srcsExist } from '../utils/errors.ts'
 
-import { showErrors } from '../utils/show.ts'
+import { showErrors } from './show.ts'
 
 export default async function (srcs: string[], dest: string): Promise<void> {
 
-  const srcsStat = await srcsExist(srcs)
+  const srcsStat = await srcsExist(srcs, showErrors.NoSuch)
 
   const destStat = await exists(dest)
   

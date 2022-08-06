@@ -1,24 +1,23 @@
-import { showErrors } from './show.ts'
-
 type Exists = Deno.FileInfo | 'NotFound'
 
-export async function exists(path: string): Promise<Exists> {
-  try {
-    const pathStats = await Deno.stat(path)
+type existCallback = (path: string) => void
 
-    return pathStats
-
-  } catch (err) {
+export function exists(path: string): Promise<Exists> {
+  const stat: Promise<Exists> = Deno.stat(path).catch(err => {
     if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
       return 'NotFound'
+
     else throw err
-  }
+  })
+
+  return stat
 }
 
-export function srcsExist(arr: string[]): Promise<Deno.FileInfo[]> {
+export function srcsExist(arr: string[], cbError: existCallback): Promise<Deno.FileInfo[]> {
   const arrStats = arr.map(path =>
     Deno.stat(path).catch(err => {
-      if (err instanceof Deno.errors.NotFound) showErrors.NoSuch(path)
+      if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
+        cbError(path)
 
       throw err
     })
