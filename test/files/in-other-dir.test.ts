@@ -6,7 +6,7 @@ import { expectedStatus } from '../../test-data/expected-out.ts'
 
 Deno.test('copy one file in to directory dest', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir/'])
+    cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir'])
   })
 
   const actualStatus = await process.status() 
@@ -38,15 +38,13 @@ Deno.test('copy one file in to directory dest', async t => {
   })
 
   await t.step('deleted new file', async () => {
-    assert(
-      await Deno.remove('./res/dest-dir/copy-file-1.txt')
-    )
+    await Deno.remove('./res/dest-dir/copy-file-1.txt')
   })
 })
 
 Deno.test('copy one file in to directory dest renaming id', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir/created-file'])
+    cmd: cmd(['./res/copy-file-1.txt', './res/dest-dir/created-file.txt'])
   })
 
   const actualStatus = await process.status() 
@@ -78,8 +76,6 @@ Deno.test('copy one file in to directory dest renaming id', async t => {
   })
 
   await t.step('deleted new file', async () => {
-    assert(
-      await Deno.remove('./res/dest-dir/created-file.txt')
-    )
+    await Deno.remove('./res/dest-dir/created-file.txt')
   })
 })

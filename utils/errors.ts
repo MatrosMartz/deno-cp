@@ -7,7 +7,7 @@ export function exists(path: string): Promise<Exists> {
     if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
       return 'NotFound'
 
-    else throw err
+    throw err
   })
 
   return stat
