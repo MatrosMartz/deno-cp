@@ -19,7 +19,7 @@ export interface Information {
 }
 
 export interface ShowErrors {
-  [CPErrors.MissingFiles]: () => string
+  [CPErrors.MissingFiles]: () => never
   [CPErrors.NoSuch]: ReturnString
   [CPErrors.NotADirectory]: ReturnString
 }

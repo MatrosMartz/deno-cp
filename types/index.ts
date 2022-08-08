@@ -1,1 +1,1 @@
-export type ReturnString = (src: string) => string
+export type ReturnString = (src: string) => never
