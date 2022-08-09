@@ -14,22 +14,19 @@ export default async function (srcs: string[], dest: string): Promise<void> {
     if (srcsStat[0].isFile) {
       const srcText = await Deno.readFile(srcs[0])
 
-      const destIsDir = ['\\', '/'].includes(<string>dest.at(-1))
+      const newFilePath =
+        destStat === 'NotFound' || !destStat.isDirectory ?
+        dest :
+        join(dest, basename(srcs[0]))
 
-      console.log(destIsDir)
+      try {
+        const destFile = await Deno.create(newFilePath)
 
-      if (destIsDir) {
-        if (destStat === 'NotFound' || !destStat.isDirectory) showErrors.NotADirectory(dest)
+        await destFile.write(srcText)
+      } catch (err) {
+        if (err instanceof Deno.errors.NotFound) showErrors.NoSuch(dest)
 
-
-      } else {
-        try {
-          const destFile = await Deno.create(dest)
-          
-          await destFile.write(srcText)
-        } catch (err) {
-          if (err instanceof Deno.errors.NotFound) showErrors.NoSuch(dest)
-        }
+        throw err
       }
     }
   } else {
