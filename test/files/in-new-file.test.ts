@@ -6,7 +6,7 @@ import { expectedStatus } from '../../test-data/expected-out.ts'
 
 Deno.test('copy one file to a new file', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/create-file.txt'])
+    cmd: cmd(['./res/copy-file-1.txt', './res/created-file.txt'])
   })
   
   await t.step('correct execution', async () => {
@@ -20,13 +20,13 @@ Deno.test('copy one file to a new file', async t => {
   process.close()
 
   await t.step('new file is file', async () => {
-    const actualExampleInfo = await Deno.lstat('./res/create-file.txt')
+    const actualExampleInfo = await Deno.lstat('./res/created-file.txt')
 
     assert(actualExampleInfo.isFile)
   })
   
   await t.step('new file content is equal to original file content', async () => {
-    const actualText = await Deno.readTextFile('./res/create-file.txt')
+    const actualText = await Deno.readTextFile('./res/created-file.txt')
     
     const expectedText = await Deno.readTextFile('./res/copy-file-1.txt')
 
@@ -37,6 +37,6 @@ Deno.test('copy one file to a new file', async t => {
   })
 
   await t.step('deleted new file', async () => {
-    await Deno.remove('./res/create-file.txt')
+    await Deno.remove('./res/created-file.txt')
   })
 })
