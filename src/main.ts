@@ -1,5 +1,7 @@
 import { showInfo, showVersion, showErrors } from './show.ts'
 
+import getArgs from '../utils/args.ts'
+
 import copy from './copy.ts'
 
 const help    = ['--help',    '-h'].includes(Deno.args[0])
@@ -12,4 +14,6 @@ else if (help)
 else if (version)
   showVersion()
 else
-  copy(Deno.args.slice(0, -1), <string>Deno.args.at(-1))
+  copy(
+    await getArgs(Deno.args, showErrors.NoSuch)
+  )

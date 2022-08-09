@@ -1,38 +1,33 @@
-import { join, basename } from 'path'
+import type { CopyArgs } from '../types/index.ts'
 
-import { exists, srcsExist } from '../utils/errors.ts'
+import { Dest } from '../types/enums.ts'
+
+import { isNotFound } from '../utils/errors.ts'
 
 import { showErrors } from './show.ts'
 
-export default async function (srcs: string[], dest: string): Promise<void> {
+import { join, basename } from 'path'
 
-  const srcsStat = await srcsExist(srcs, showErrors.NoSuch)
-
-  const destStat = await exists(dest)
-  
+export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
   if (srcs.length === 1) {
-    if (srcsStat[0].isFile) {
-      const srcText = await Deno.readFile(srcs[0])
+    if (srcs[0].stats.isFile) {
+      const srcText = await Deno.readFile(srcs[0].path)
 
       const newFilePath =
-        destStat === 'NotFound' || !destStat.isDirectory ?
-        dest :
-        join(dest, basename(srcs[0]))
+        dest.type === Dest.Dir ?
+          join(dest.path, basename(srcs[0].path)) :
+          dest.path
 
       try {
         const destFile = await Deno.create(newFilePath)
 
         await destFile.write(srcText)
       } catch (err) {
-        if (err instanceof Deno.errors.NotFound) showErrors.NoSuch(dest)
+        if (isNotFound(err)) showErrors.NoSuch(dest)
 
         throw err
       }
     }
-  } else {
-    if (destStat === 'NotFound' || !destStat.isDirectory) showErrors.NotADirectory(dest)
-
-    const newFiles = srcs.map(str => join(dest, basename(str)))
-    console.log(newFiles, dest)
   }
+  else if (dest.type !== Dest.Dir) showErrors.NotADirectory(dest.path)
 }

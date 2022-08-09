@@ -1,27 +1,29 @@
-type Exists = Deno.FileInfo | 'NotFound'
+import type { existErrorCallback } from '../types/index.ts'
 
-type existCallback = (path: string) => void
+import { Dest } from '../types/enums.ts'
 
-export function exists(path: string): Promise<Exists> {
-  const stat: Promise<Exists> = Deno.stat(path).catch(err => {
-    if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
-      return 'NotFound'
-
-    throw err
-  })
-
-  return stat
+export function isNotFound(err: unknown) {
+  return err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123')
 }
 
-export function srcsExist(arr: string[], cbError: existCallback): Promise<Deno.FileInfo[]> {
-  const arrStats = arr.map(path =>
-    Deno.stat(path).catch(err => {
-      if (err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123'))
-        cbError(path)
+export async function getDestType(path: string) {
+  try {
+    const stat = await Deno.stat(path)
 
-      throw err
-    })
-  )
+    if (stat.isDirectory) return Dest.Dir
+    if (stat.isFile)      return Dest.File
+    if (stat.isSymlink)   return Dest.Link
+  } catch (err) {
+    if (isNotFound(err)) return Dest.NoSuch
 
-  return Promise.all(arrStats)
+    throw err
+  }
+}
+
+export function rejectSrc(path: string, cb: existErrorCallback) {
+  return (err: unknown) => {
+    if (isNotFound(err)) cb(path)
+
+    throw err
+  }
 }
