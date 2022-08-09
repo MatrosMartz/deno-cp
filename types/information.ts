@@ -1,7 +1,5 @@
 import type { CPErrors } from './enums.ts'
 
-import type { ReturnString } from './index.ts'
-
 interface Option {
   names: string[]
   description: string
@@ -13,13 +11,13 @@ export interface Information {
   version: string
   errors: {
     [CPErrors.MissingFiles]: string
-    [CPErrors.NoSuch]: ReturnString
-    [CPErrors.NotADirectory]: ReturnString
+    [CPErrors.NoSuch]: (str: string) => string
+    [CPErrors.NotADirectory]: (str: string) => string
   }
 }
 
 export interface ShowErrors {
   [CPErrors.MissingFiles]: () => never
-  [CPErrors.NoSuch]: ReturnString
-  [CPErrors.NotADirectory]: ReturnString
+  [CPErrors.NoSuch]: (str: string) => never
+  [CPErrors.NotADirectory]: (str: string) => never
 }
