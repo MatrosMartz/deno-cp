@@ -6,7 +6,7 @@ import { expectedStatus } from '../../test-data/expected-out.ts'
 
 Deno.test('copy multiple files in to directory dest', async t => {
   const process = Deno.run({
-    cmd: cmd(['copy-file-1', 'copy-file-2', 'dest-dir'])
+    cmd: cmd(['./res/copy-file-1.txt', './res/copy-file-2.txt', './res/dest-dir'])
   })
 
   const actualStatus = await process.status() 
@@ -22,13 +22,13 @@ Deno.test('copy multiple files in to directory dest', async t => {
 
   await t.step('new files are files', async t =>{
     await t.step('first file is file', async() => {
-      const fileStat = await Deno.stat('copy-file-1')
+      const fileStat = await Deno.stat('./res/copy-file-1.txt')
 
       assert(fileStat.isFile)
     })
 
     await t.step('second file is file', async() => {
-      const fileStat = await Deno.stat('copy-file-2')
+      const fileStat = await Deno.stat('./res/copy-file-2')
 
       assert(fileStat.isFile)
     })
@@ -56,15 +56,14 @@ Deno.test('copy multiple files in to directory dest', async t => {
         expectedText
       )
     })
+  })
+  await t.step('removed new files',async t => {
+    await t.step('removed first new file', async () => {
+      await Deno.remove('./res/dest-dir/copy-file-1.txt')
+    })
 
-    await t.step('removed new files',async t => {
-      await t.step('removed first new file', async () => {
-        await Deno.remove('./res/dest-dir/copy-file-1.txt')
-      })
-
-      await t.step('removed second new file', async () => {
-        await Deno.remove('./res/dest-dir/copy-file-2.txt')
-      })
+    await t.step('removed second new file', async () => {
+      await Deno.remove('./res/dest-dir/copy-file-2.txt')
     })
   })
 })
