@@ -4,8 +4,7 @@ export enum CPErrors {
   NotADirectory = 'NotADirectory'
 }
 
-
-export enum Dest {
+export enum DestType {
   Dir    = 'Directory',
   Link   = 'SymbolycLink',
   File   = 'File',

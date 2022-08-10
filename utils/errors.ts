@@ -1,6 +1,6 @@
 import type { existErrorCallback } from '../types/index.ts'
 
-import { Dest } from '../types/enums.ts'
+import { DestType } from '../types/enums.ts'
 
 export function isNotFound(err: unknown) {
   return err instanceof Deno.errors.NotFound || (<Error>err).message.includes('os error 123')
@@ -10,11 +10,11 @@ export async function getDestType(path: string) {
   try {
     const stat = await Deno.stat(path)
 
-    if (stat.isDirectory) return Dest.Dir
-    if (stat.isFile)      return Dest.File
-    if (stat.isSymlink)   return Dest.Link
+    if (stat.isDirectory) return DestType.Dir
+    if (stat.isFile)      return DestType.File
+    if (stat.isSymlink)   return DestType.Link
   } catch (err) {
-    if (isNotFound(err)) return Dest.NoSuch
+    if (isNotFound(err))  return DestType.NoSuch
 
     throw err
   }
