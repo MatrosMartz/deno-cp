@@ -1,6 +1,6 @@
 import type { CopyArgs } from '../types/index.ts'
 
-import { Dest } from '../types/enums.ts'
+import { DestType } from '../types/enums.ts'
 
 import { isNotFound } from '../utils/errors.ts'
 
@@ -14,7 +14,7 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
       const srcText = await Deno.readFile(srcs[0].path)
 
       const newFilePath =
-        dest.type === Dest.Dir ?
+        dest.type === DestType.Dir ?
           join(dest.path, basename(srcs[0].path)) :
           dest.path
 
@@ -23,11 +23,11 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
 
         await destFile.write(srcText)
       } catch (err) {
-        if (isNotFound(err)) showErrors.NoSuch(dest)
+        if (isNotFound(err)) showErrors.NoSuch(dest.path)
 
         throw err
       }
     }
   }
-  else if (dest.type !== Dest.Dir) showErrors.NotADirectory(dest.path)
+  else if (dest.type !== DestType.Dir) showErrors.NotADirectory(dest.path)
 }
