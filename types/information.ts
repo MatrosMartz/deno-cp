@@ -13,6 +13,7 @@ export interface Information {
     [CPErrors.MissingFiles]: string
     [CPErrors.NoSuch]: (str: string) => string
     [CPErrors.NotADirectory]: (str: string) => string
+    [CPErrors.CannotOverwrite]: (str: string) => string
   }
 }
 
@@ -20,4 +21,5 @@ export interface ShowErrors {
   [CPErrors.MissingFiles]: () => never
   [CPErrors.NoSuch]: (str: string) => never
   [CPErrors.NotADirectory]: (str: string) => never
+  [CPErrors.CannotOverwrite]: (str: string) => never
 }

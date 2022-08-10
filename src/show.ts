@@ -30,4 +30,8 @@ export const showErrors: ShowErrors = {
     console.error(info.errors[CPErrors.NotADirectory](str))
     Deno.exit(1)
   },
+  CannotOverwrite(str) {
+    console.error(info.errors[CPErrors.CannotOverwrite](str))
+    Deno.exit(1)
+  }
 }

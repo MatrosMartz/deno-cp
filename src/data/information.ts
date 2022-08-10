@@ -17,5 +17,6 @@ export default <Information> {
     MissingFiles: 'cp: missing file operand\nTry \'cp --help\' for more information.',
     NotADirectory: (src) => `cp: cannot create regular file '${src}': Not a directory`,
     NoSuch: (src) => `cp: cannot stat '${src}': No such file or directory`,
+    CannotOverwrite: (src) => `cp: cannot overwrite non-directory '${src}' with directory 'copy'`,
   }
 }

@@ -1,7 +1,8 @@
 export enum CPErrors {
-  MissingFiles  = 'MissingFiles',
-  NoSuch        = 'NoSuch',
-  NotADirectory = 'NotADirectory'
+  MissingFiles    = 'MissingFiles',
+  NoSuch          = 'NoSuch',
+  NotADirectory   = 'NotADirectory',
+  CannotOverwrite = 'CannotOverwrite'
 }
 
 export enum DestType {
