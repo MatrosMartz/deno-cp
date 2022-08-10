@@ -1,23 +1,23 @@
-import type { Dest } from './enums.ts'
+import type { DestType } from './enums.ts'
 
 export interface File {
   path: string
   stats: Deno.FileInfo
 }
 
-export interface DestType {
+export interface DestInterface {
   path: string
-  type: Dest
+  type: DestType
 }
 
 export interface CopyArgs {
   flags?: string[]
   srcs: File[]
-  dest: DestType
+  dest: DestInterface
 }
 
 export interface existErrorCallback {
-  (path: string) : void
+  (path: string) : never
 }
 
 export interface ArgFunc {
