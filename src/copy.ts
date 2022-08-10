@@ -23,7 +23,7 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
 
         await destFile.write(srcText)
       } catch (err) {
-        if (isNotFound(err)) showErrors.NoSuch(dest.path)
+        if (isNotFound(err)) showErrors.NoSuch(newFilePath)
 
         throw err
       }
