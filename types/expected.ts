@@ -1,9 +1,15 @@
-import type { CPErrors } from './enums.ts'
-
-type ExcErrorKeys = `${CPErrors}${'Alt' | ''}`
-
-type ExcError = {
-  [i in ExcErrorKeys]?: string
+interface ExcError {
+  MissingFiles: string
+  NoSuch: {
+    File: string
+    Dir: string
+    InDir: string
+  }
+  NotDir: {
+    File: string
+    NoExist: string
+    overwrite: string
+  }
 }
 
 export interface ExpectedErrors {

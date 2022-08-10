@@ -6,7 +6,7 @@ import { cmd, decode } from '../../utils/tests.ts'
 
 Deno.test('copy src file no exist', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/no-exist','./res/dest-file.txt']),
+    cmd: cmd(['./res/no-exist.txt','./res/dest-file.txt']),
     stderr: 'piped'
   })
 
@@ -26,16 +26,45 @@ Deno.test('copy src file no exist', async t => {
     
     assertEquals(
       actualErrotOutput,
-      expected.err.NoSuch
+      expected.err.NoSuch.File
       )
     })
   
   process.close()
 })
 
-Deno.test('copy dest directory no exist', async t => {
+Deno.test('copy src dir no exist', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/no-exist/dest-file.txt']),
+    cmd: cmd(['./res/no-exist/','./res/dest-file.txt']),
+    stderr: 'piped'
+  })
+
+  await t.step('status code diferent to 0', async () => {
+    const actualStatus = await process.status()
+
+    assertEquals(
+      actualStatus,
+      expected.status
+    )
+  })
+  
+  const rawErrorOutput = await process.stderrOutput()
+  
+  await t.step('error output', () => {
+    const actualErrotOutput = decode(rawErrorOutput)
+    
+    assertEquals(
+      actualErrotOutput,
+      expected.err.NoSuch.Dir
+      )
+    })
+  
+  process.close()
+})
+
+Deno.test('copy one file in not exist dir', async t => {
+  const process = Deno.run({
+    cmd: cmd(['./res/copy-file-1.txt', './res/no-exist/in']),
     stderr: 'piped'
   })
 
@@ -55,16 +84,16 @@ Deno.test('copy dest directory no exist', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NoSuchAlt
+      expected.err.NoSuch.InDir
     )
   })
 
   process.close()
 })
 
-Deno.test('copy file to a non-exist directory', async t => {
+Deno.test('copy one dir in not exist dir', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/no-exist-dir/']),
+    cmd: cmd(['./res/copy-dir', './res/no-exist/in']),
     stderr: 'piped'
   })
 
@@ -84,7 +113,36 @@ Deno.test('copy file to a non-exist directory', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NotADirectoryAlt
+      expected.err.NoSuch.InDir
+    )
+  })
+
+  process.close()
+})
+
+Deno.test('copy miltiples files in not exist dir', async t => {
+  const process = Deno.run({
+    cmd: cmd(['./res/copy-file-1.txt', './res/copy-file-1.txt', './res/no-exist/in']),
+    stderr: 'piped'
+  })
+
+  await t.step('status code diferent to 0', async () => {
+    const actualStatus = await process.status()
+
+    assertEquals(
+      actualStatus,
+      expected.status
+    )
+  })
+
+  const rawErrorOutput = await process.stderrOutput()
+
+  await t.step('error output', () => {
+    const actualErrorOutput = decode(rawErrorOutput)
+
+    assertEquals(
+      actualErrorOutput,
+      expected.err.NoSuch.InDir
     )
   })
 
