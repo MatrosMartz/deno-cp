@@ -61,3 +61,32 @@ Deno.test('copy dest directory no exist', async t => {
 
   process.close()
 })
+
+Deno.test('copy file to a non-exist directory', async t => {
+  const process = Deno.run({
+    cmd: cmd(['./res/copy-file-1.txt', './res/no-exist-dir/']),
+    stderr: 'piped'
+  })
+
+  await t.step('status code diferent to 0', async () => {
+    const actualStatus = await process.status()
+
+    assertEquals(
+      actualStatus,
+      expected.status
+    )
+  })
+
+  const rawErrorOutput = await process.stderrOutput()
+
+  await t.step('error output', () => {
+    const actualErrorOutput = decode(rawErrorOutput)
+
+    assertEquals(
+      actualErrorOutput,
+      expected.err.NotADirectoryAlt
+    )
+  })
+
+  process.close()
+})
