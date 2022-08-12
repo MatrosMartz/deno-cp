@@ -14,8 +14,10 @@ export async function getDestType(path: string) {
     if (stat.isFile)      return DestType.File
     if (stat.isSymlink)   return DestType.Link
   } catch (err) {
-    if (isNotFound(err))  return DestType.NoSuch
-
+    if (isNotFound(err))  {
+      if (['\\', '/'].includes(<string>path.at(-1))) return DestType.NoSuchDir
+      return DestType.NoSuch
+    }
     throw err
   }
 }
