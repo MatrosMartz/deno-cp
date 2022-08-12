@@ -9,8 +9,9 @@ export default <ExpectedErrors> {
       InDir: 'cp: cannot stat \'./res/no-exist/in\': No such file or directory\n',
     },
     NotDir: {
-      File: 'cp: target \'./res/is-not-dir.txt\' is not a directory\n',
-      NoExist: 'cp: target \'./res/not-exist/\' is not a directory\n',
+      target: 'cp: target \'./res/not-exist\': Not a directory\n',
+      create: 'cp: cannot create regular file \'./res/is-not-dir.txt/\': Not a directory\n',
+      NoExist: 'cp: cannot create regular file \'./res/not-exist/\': Not a directory\n',
       overwrite: 'cp: cannot overwrite non-directory \'./res/dest-file.txt\' with directory \'copy\'\n',
     },
   },

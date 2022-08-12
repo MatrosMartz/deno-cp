@@ -6,7 +6,8 @@ interface ExcError {
     InDir: string
   }
   NotDir: {
-    File: string
+    target: string
+    create: string
     NoExist: string
     overwrite: string
   }
