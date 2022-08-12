@@ -6,7 +6,7 @@ import { cmd, decode } from '../../utils/tests.ts'
 
 Deno.test('copy multiple files to a non-directory', async t => {
   const process = Deno.run({
-    cmd: cmd(['./res/copy-file-1.txt', './res/copy-file-2.txt', './res/is-not-dir']),
+    cmd: cmd(['./res/copy-file-1.txt', './res/copy-file-2.txt', './res/no-exist']),
     stderr: 'piped'
   })
 
@@ -26,7 +26,7 @@ Deno.test('copy multiple files to a non-directory', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NotDir.File
+      expected.err.NotDir.target
     )
   })
 
@@ -55,7 +55,7 @@ Deno.test('copy one file to a non-directory', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NotDir.File
+      expected.err.NotDir.create
     )
   })
 
@@ -84,7 +84,7 @@ Deno.test('copy one dir to a non-directory', async t => {
 
     assertEquals(
       actualErrorOutput,
-      expected.err.NotDir.File
+      expected.err.NotDir.overwrite
     )
   })
 
