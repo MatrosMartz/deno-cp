@@ -26,8 +26,16 @@ export const showErrors: ShowErrors = {
     console.error(info.errors[CPErrors.NoSuch](str))
     Deno.exit(1)
   },
-  NotADirectory(str) {
-    console.error(info.errors[CPErrors.NotADirectory](str))
+  Target(str) {
+    console.error(info.errors[CPErrors.Target](str))
+    Deno.exit(1)
+  },
+  CannotCreate(str) {
+    console.error(info.errors[CPErrors.CannotCreate](str))
+    Deno.exit(1)
+  },
+  FailedAccess(str) {
+    console.error(info.errors[CPErrors.FailedAccess](str))
     Deno.exit(1)
   },
   CannotOverwrite(str) {

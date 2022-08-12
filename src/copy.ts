@@ -12,7 +12,7 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
   if (srcs.length === 1) {
     const [src] = srcs
     if (!src.stats.isDirectory && dest.type === DestType.NoSuchDir)
-      showErrors.NotADirectory(dest.path)
+      showErrors.FailedAccess(dest.path)
 
     if (src.stats.isFile) {
       const srcText = await Deno.readFile(src.path)
@@ -33,5 +33,5 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
       }
     }
   }
-  else if (dest.type !== DestType.Dir) showErrors.NotADirectory(dest.path)
+  else if (dest.type !== DestType.Dir) showErrors.Target(dest.path)
 }
