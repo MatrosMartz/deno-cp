@@ -16,10 +16,6 @@ export interface CopyArgs {
   dest: DestInterface
 }
 
-export interface existErrorCallback {
-  (path: string) : never
-}
-
 export interface ArgFunc {
-  (args: string[], cb: existErrorCallback) : Promise<CopyArgs>
+  (args: string[]) : Promise<CopyArgs>
 }

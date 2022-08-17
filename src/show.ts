@@ -1,6 +1,3 @@
-import { CPErrors } from '../types/enums.ts'
-import { ShowErrors } from '../types/information.ts'
-
 import info from './data/information.ts'
 
 export function showInfo() {
@@ -15,31 +12,4 @@ export function showInfo() {
 
 export function showVersion() {
   console.log(info.version)
-}
-
-export const showErrors: ShowErrors = {
-  MissingFiles() {
-    console.error(info.errors[CPErrors.MissingFiles])
-    Deno.exit(1)
-  },
-  NoSuch(str) {
-    console.error(info.errors[CPErrors.NoSuch](str))
-    Deno.exit(1)
-  },
-  Target(str) {
-    console.error(info.errors[CPErrors.Target](str))
-    Deno.exit(1)
-  },
-  CannotCreate(str) {
-    console.error(info.errors[CPErrors.CannotCreate](str))
-    Deno.exit(1)
-  },
-  FailedAccess(str) {
-    console.error(info.errors[CPErrors.FailedAccess](str))
-    Deno.exit(1)
-  },
-  CannotOverwrite(str) {
-    console.error(info.errors[CPErrors.CannotOverwrite](str))
-    Deno.exit(1)
-  }
 }

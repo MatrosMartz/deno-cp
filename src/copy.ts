@@ -1,10 +1,10 @@
-import type { CopyArgs } from '../types/index.ts'
+import type { CopyArgs } from 'args/types/main.ts'
 
-import { DestType } from '../types/enums.ts'
+import { DestType } from 'args/types/enums.ts'
 
-import { isNotFound } from '../utils/errors.ts'
+import { isNotFound } from 'copy-errors/funcs.ts'
 
-import { showErrors } from './show.ts'
+import { TargetError, NoSuchError, FailedAccessError } from 'copy-errors/errors.ts'
 
 import { join, basename } from 'path'
 
@@ -12,7 +12,7 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
   if (srcs.length === 1) {
     const [src] = srcs
     if (!src.stats.isDirectory && dest.type === DestType.NoSuchDir)
-      showErrors.FailedAccess(dest.path)
+      throw new FailedAccessError(dest.path)
 
     if (src.stats.isFile) {
       const srcText = await Deno.readFile(src.path)
@@ -27,11 +27,11 @@ export default async function ({ srcs, dest }: CopyArgs): Promise<void> {
 
         await destFile.write(srcText)
       } catch (err) {
-        if (isNotFound(err)) showErrors.NoSuch(newFilePath)
+        if (isNotFound(err)) throw new NoSuchError(newFilePath)
 
         throw err
       }
     }
   }
-  else if (dest.type !== DestType.Dir) showErrors.Target(dest.path)
+  else if (dest.type !== DestType.Dir) throw new TargetError(dest.path)
 }
