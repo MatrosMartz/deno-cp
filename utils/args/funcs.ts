@@ -12,7 +12,7 @@ export async function getDestType(path: string) {
   } catch (err) {
     if (isNotFound(err))  {
       if (['\\', '/'].includes(<string>path.at(-1))) return DestType.NoSuchDir
-      
+
       return DestType.NoSuch
     }
 

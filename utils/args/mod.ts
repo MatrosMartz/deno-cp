@@ -1,6 +1,6 @@
 import type { ArgFunc, File } from './types/main.ts'
 
-import { getDestType } from './errors.ts'
+import { getDestType } from './funcs.ts'
 
 import { isNotFound } from 'copy-errors/funcs.ts'
 
